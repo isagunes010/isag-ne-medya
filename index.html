@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelancer — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --bg: #060608;
+  --accent: #b8ff57;
+  --accent2: #57c8ff;
+  --text: #f2f2f2;
+  --muted: #555;
+  --border: rgba(255,255,255,0.06);
+  --card: rgba(255,255,255,0.03);
+  --glow: rgba(184,255,87,0.15);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width 0.3s, height 0.3s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(184,255,87,0.5);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+/* Animated BG orbs */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: orbFloat linear infinite;
+}
+.orb1 { width: 500px; height: 500px; background: #b8ff57; top: -200px; left: -100px; opacity: 0.12; animation-duration: 22s; }
+.orb2 { width: 400px; height: 400px; background: #57c8ff; bottom: -150px; right: -80px; opacity: 0.10; animation-duration: 28s; animation-delay: -10s; }
+.orb3 { width: 250px; height: 250px; background: #ff57c8; top: 45%; left: 55%; opacity: 0.07; animation-duration: 16s; animation-delay: -5s; }
+
+@keyframes orbFloat {
+  0%,100%{ transform: translate(0,0) scale(1); }
+  33%{ transform: translate(50px,-40px) scale(1.06); }
+  66%{ transform: translate(-35px,25px) scale(0.94); }
+}
+
+/* Grid bg */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 10%, transparent 75%);
+}
+
+/* Wrap */
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 56px 20px 90px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HERO ── */
+.hero { margin-bottom: 64px; animation: fadeUp 0.7s ease both; }
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(184,255,87,0.07);
+  border: 1px solid rgba(184,255,87,0.2);
+  border-radius: 20px;
+  padding: 5px 14px 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.status-dot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%,100%{ opacity:1; box-shadow: 0 0 8px var(--accent); }
+  50%{ opacity:0.3; box-shadow: none; }
+}
+
+.hero-year {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 20vw, 120px);
+  line-height: 0.88;
+  letter-spacing: 3px;
+  margin-bottom: 24px;
+}
+.hero-title .line1 { color: var(--text); display: block; }
+.hero-title .line2 {
+  display: block;
+  -webkit-text-stroke: 1.5px rgba(184,255,87,0.7);
+  color: transparent;
+}
+
+.hero-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.hero-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 300px;
+}
+
+.hero-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 9px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.tag:hover {
+  color: var(--accent);
+  border-color: rgba(184,255,87,0.25);
+  background: rgba(184,255,87,0.04);
+}
+
+.hero-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), rgba(87,200,255,0.4), transparent);
+  margin-top: 28px;
+  opacity: 0.4;
+}
+
+/* ── SECTION ── */
+.section { margin-bottom: 44px; }
+.section:nth-child(2){ animation: fadeUp 0.7s 0.1s ease both; }
+.section:nth-child(3){ animation: fadeUp 0.7s 0.2s ease both; }
+.section:nth-child(4){ animation: fadeUp 0.7s 0.3s ease both; }
+
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.sec-line { flex: 1; height: 1px; background: var(--border); }
+.sec-num { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.1); }
+
+/* ── SERVICES ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.srv {
+  background: #0a0a0c;
+  padding: 22px 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.35s;
+}
+.srv::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 10% 10%, rgba(184,255,87,0.08), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.srv:hover { background: rgba(184,255,87,0.025); }
+.srv:hover::after { opacity: 1; }
+
+.srv-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.07);
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+.srv-icon { font-size: 26px; margin-bottom: 12px; display: block; }
+.srv-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.srv-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+/* ── PRICING ── */
+.price-wrap {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 20px;
+  background: #0a0a0c;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  transition: background 0.2s;
+  cursor: default;
+}
+.price-row:last-child { border-bottom: none; }
+.price-row:hover { background: rgba(255,255,255,0.02); }
+
+.price-left { display: flex; align-items: center; gap: 14px; }
+.price-ico {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.price-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.price-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.price-right { text-align: right; flex-shrink: 0; }
+.price-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  line-height: 1;
+}
+.price-since { font-size: 10px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
+
+.price-note {
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: rgba(87,200,255,0.04);
+  border: 1px solid rgba(87,200,255,0.1);
+  border-radius: 10px;
+  font-size: 12px;
+  color: rgba(87,200,255,0.65);
+  line-height: 1.6;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+
+/* ── CONTACT ── */
+.contact-stack { display: flex; flex-direction: column; gap: 10px; }
+
+.cta-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  background: var(--accent);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 0 50px rgba(184,255,87,0.18), 0 0 0 1px rgba(184,255,87,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.cta-main::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+}
+.cta-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 60px rgba(184,255,87,0.30), 0 0 0 1px rgba(184,255,87,0.4);
+}
+
+.cta-left { display: flex; align-items: center; gap: 14px; }
+.cta-icon {
+  width: 40px; height: 40px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cta-title { font-size: 15px; font-weight: 700; color: #050505; }
+.cta-phone { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(0,0,0,0.5); margin-top: 2px; }
+
+.cta-arr {
+  width: 34px; height: 34px;
+  background: rgba(0,0,0,0.12);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #050505;
+  font-size: 16px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.cta-main:hover .cta-arr { transform: translateX(4px); }
+
+.cta-sec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 20px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.cta-sec:hover {
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-2px);
+}
+.cta-sec .cta-icon {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+}
+.cta-sec .cta-title { font-size: 14px; color: var(--text); }
+.cta-sec .cta-phone { color: var(--muted); }
+.cta-sec .cta-arr { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+.cta-sec:hover .cta-arr { transform: translateX(3px); }
+
+/* ── FOOTER ── */
+.foot {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.foot-l, .foot-r {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 1px;
+}
+.foot-dot { color: var(--accent); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+
+@media(max-width:500px){
+  .hero-title { font-size: 72px; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .hero-tags { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+  .services-grid { grid-template-columns: 1fr; }
+  .foot { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="grid-bg"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="status-pill"><span class="status-dot"></span>Müsait — Proje Kabul</div>
+      <div class="hero-year">2026</div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="line1">İsa GÜNEŞ</span>
+      <span class="line2">MEDYA</span>
+    </h1>
+
+    <div class="hero-bottom">
+      <p class="hero-desc">Görsel içerik üretimi ve marka kimliği konusunda yaratıcı çözümler üretiyorum. Her proje özenle hazırlanır.</p>
+      <div class="hero-tags">
+        <span class="tag">🎬 WEB SİTE</span>
+        <span class="tag">✏️ LOGO TASARIM</span>
+        <span class="tag">🚁 DRONE ÇEKİMİ</span>
+        <span class="tag">🏠 GAYRİMENKUL</span>
+      </div>
+    </div>
+    <div class="hero-divider"></div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="section reveal">
+    <div class="sec-header">
+      <span class="sec-label">Hizmetler</span>
+      <div class="sec-line"></div>
+      <span class="sec-num">04</span>
+    </div>
+    <div class="services-grid">
+      <div class="srv">
+        <span class="srv-num">01</span>
+        <span class="srv-icon">🎬</span>
+        <div class="srv-name">Web Site</div>
+        <div class="srv-desc">Profosyonel Web Site</div>
+      </div>
+      <div class="srv">
+        <span class="srv-num">02</span>
+        <span class="srv-icon">✏️</span>
+        <div class="srv-name">Logo Tasarım</div>
+        <div class="srv-desc">Marka kimliği, vektörel logo, revizyon dahil</div>
+      </div>
+      <div class="srv">
+        <span class="srv-num">03</span>
+        <span class="srv-icon">🚁</span>
+        <div class="srv-name">Drone Çekimi</div>
+        <div class="srv-desc">4K hava fotoğrafı & video, montaj dahil</div>
+      </div>
+      <div class="srv">
+        <span class="srv-num">04</span>
+        <span class="srv-icon">🏠</span>
+        <div class="srv-name">Gayrimenkul</div>
+        <div class="srv-desc">İlan fotoğraf + video + drone komple paket</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="section reveal">
+    <div class="sec-header">
+      <span class="sec-label">Fiyatlar</span>
+      <div class="sec-line"></div>
+      <span class="sec-num">04</span>
+    </div>
+    <div class="price-wrap">
+      <div class="price-row">
+        <div class="price-left">
+          <div class="price-ico">🎬</div>
+          <div><div class="price-title">Emlak Web Site</div><div class="price-sub">Profosyonel Web Site Emlak</div></div>
+        </div>
+        <div class="price-right"><div class="price-val">20.000₺</div><div class="price-since">başlangıç</div></div>
+      </div>
+      <div class="price-row">
+        <div class="price-left">
+          <div class="price-ico">✏️</div>
+          <div><div class="price-title">Logo Tasarım</div><div class="price-sub">3 konsept + revizyon</div></div>
+        </div>
+        <div class="price-right"><div class="price-val">1500₺ - 3500₺</div><div class="price-since">başlangıç</div></div>
+      </div>
+      <div class="price-row">
+        <div class="price-left">
+          <div class="price-ico">🚁</div>
+          <div><div class="price-title">Drone Çekimi</div><div class="price-sub">Seslendirme + Animasyon + Arsa Çizim + Montaj</div></div>
+        </div>
+        <div class="price-right"><div class="price-val">8000₺ - 15.000₺</div><div class="price-since">başlangıç</div></div>
+      </div>
+      <div class="price-row">
+        <div class="price-left">
+          <div class="price-ico">🏠</div>
+          <div><div class="price-title">Gayrimenkul Paketi</div><div class="price-sub">Fotoğraf + Video + Drone + Montaj + Bilgi Afişi</div></div>
+        </div>
+        <div class="price-right"><div class="price-val">15.000₺ - 20.000₺</div><div class="price-since">başlangıç</div></div>
+      </div>
+    </div>
+    <div class="price-note">
+      <span>ℹ️</span>
+      <span>Fiyatlar projenin kapsamına göre değişebilir. Net fiyat için proje detaylarınızı paylaşın.</span>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section reveal">
+    <div class="sec-header">
+      <span class="sec-label">İletişim</span>
+      <div class="sec-line"></div>
+      <span class="sec-num">02</span>
+    </div>
+    <div class="contact-stack">
+      <a class="cta-main" href="https://wa.me/905417878726" target="_blank">
+        <div class="cta-left">
+          <div class="cta-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#050505">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cta-title">WhatsApp ile Yaz</div>
+            <div class="cta-phone">0541 787 87 26</div>
+          </div>
+        </div>
+        <div class="cta-arr">→</div>
+      </a>
+
+      <a class="cta-sec" href="tel:+905417878726">
+        <div class="cta-left">
+          <div class="cta-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.5 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cta-title">Ara</div>
+            <div class="cta-phone">0541 787 87 26</div>
+          </div>
+        </div>
+        <div class="cta-arr">→</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot reveal">
+    <div class="foot-l">İsa Güneş MEDYA <span class="foot-dot">·</span> TÜRKİYE</div>
+    <div class="foot-r">VIDEO <span class="foot-dot">·</span> TASARIM <span class="foot-dot">·</span> DRONE</div>
+  </div>
+
+</div>
+
+<script>
+// Cursor
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px';
+  cur.style.top = my + 'px';
+});
+
+(function loop(){
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(loop);
+})();
+
+document.querySelectorAll('a, .srv, .price-row, .tag').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cur.style.width = '16px'; cur.style.height = '16px';
+    ring.style.width = '54px'; ring.style.height = '54px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cur.style.width = '10px'; cur.style.height = '10px';
+    ring.style.width = '36px'; ring.style.height = '36px';
+  });
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
